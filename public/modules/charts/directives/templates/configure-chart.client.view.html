@@ -1,0 +1,24 @@
+<style>
+  .column-button {
+    margin: 4px;
+  }
+</style>
+<div>
+    <div ng-if="dataset">
+        <div ng-if="['bar', 'pie'].indexOf(chartType) !== -1">
+          <h3>Grouping(s)</h3>
+          <p>Choose 1+ dimensions</p>
+          <button class="btn btn-sm column-button" data-ng-repeat="col in getColumns()">{{col}}</button>
+          <h3>Numeric Output</h3>
+          <p>Choose 0 or 1 numeric dimensions</p>
+        </div>
+        <div ng-if="chartType === 'line'">
+          <h3>X-Axis</h3>
+          <p>Choose 1 numeric dimension</p>
+          <h3>Y-Axis</h3>
+          <p>Choose 1+ numeric dimensions</p>
+        </div>
+        <div ng-if="['pie', 'line', 'bar'].indexOf(chartType) === -1">Choose a graph type</div>
+    </div>
+    <div ng-if="!dataset">Choose a dataset</div>
+</div>

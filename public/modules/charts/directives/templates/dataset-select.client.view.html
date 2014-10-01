@@ -1,0 +1,18 @@
+<style>
+  .dataset-buttons {
+    width: 100%;
+  }
+  .dataset-buttons .btn h3,
+  .dataset-buttons .btn p {
+    text-align: left;
+  }
+</style>
+
+<div class="btn-group-vertical dataset-buttons">
+  <button type="button" class="btn btn-default" data-ng-repeat="dataset in datasets" 
+          data-ng-click="setSelection(dataset);" 
+          ng-class="{active : isSelected(dataset)}">
+    <h3>{{dataset.name}}</h3>
+    <p>Number of columns: {{dataset.columnCount}}</p>
+  </button>
+</div>

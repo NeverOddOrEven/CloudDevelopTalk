@@ -1,0 +1,35 @@
+<style>
+  .icon {
+    font-family: 'icomoon';
+  }
+  .chart-name {
+    padding-left: 5px;
+  }
+  .chart-type .bar-icon:after {
+    content: '\e603';
+  }
+  .chart-type .pie-icon:after {
+    content: '\e603';
+  }
+  .chart-type .line-icon:after {
+    content: '\e603';
+  }
+</style>
+
+<div class="btn-group btn-group-lg chart-type">
+  <button type="button" class="btn btn-default" data-ng-click="chartTypeSelection('line');" 
+          ng-class="{active : isSelected('line')}">
+    <span class="icon line-icon"/>
+    <span class="chart-name">Line</span>
+  </button>
+  <button type="button" class="btn btn-default" data-ng-click="chartTypeSelection('bar');"
+          ng-class="{active : isSelected('bar')}">
+    <span class="icon bar-icon"/>
+    <span class="chart-name">Bar</span>
+  </button>
+  <button type="button" class="btn btn-default" data-ng-click="chartTypeSelection('pie');"
+          ng-class="{active : isSelected('pie')}">
+    <span class="icon pie-icon"/>
+    <span class="chart-name">Pie</span>
+  </button>
+</div>

@@ -1,0 +1,41 @@
+'use strict';
+
+/**
+ * Module dependencies.
+ */
+var mongoose = require('mongoose'),
+	Schema = mongoose.Schema;
+
+/**
+ * Chart Schema
+ */
+var ChartSchema = new Schema({
+	name: {
+		type: String,
+		default: '',
+		required: 'Please fill Chart name',
+		trim: true
+	},
+  chartType: {
+    type: String,
+		enum: ['line', 'bar', 'pie']
+  },
+  datum: {
+		type: Schema.ObjectId,
+		ref: 'Datum'
+	},
+  metadata: {
+    // To contain details on how to construct the chart
+    type: Schema.Types.Mixed
+  },
+	created: {
+		type: Date,
+		default: Date.now
+	},
+	user: {
+		type: Schema.ObjectId,
+		ref: 'User'
+	}
+});
+
+mongoose.model('Chart', ChartSchema);
