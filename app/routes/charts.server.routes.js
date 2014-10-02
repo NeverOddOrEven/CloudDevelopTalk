@@ -11,7 +11,6 @@ module.exports = function(app) {
 
 	app.route('/charts/:chartId')
 		.get(charts.read)
-		.put(users.requiresLogin, charts.hasAuthorization, charts.update)
 		.delete(users.requiresLogin, charts.hasAuthorization, charts.delete);
 
 	// Finish by binding the Chart middleware

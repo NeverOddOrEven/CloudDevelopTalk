@@ -24,7 +24,7 @@ var ChartSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'Datum'
 	},
-  metadata: {
+  configuration: {
     // To contain details on how to construct the chart
     type: Schema.Types.Mixed
   },

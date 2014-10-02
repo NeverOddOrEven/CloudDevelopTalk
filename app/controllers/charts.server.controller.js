@@ -57,25 +57,6 @@ exports.read = function(req, res) {
 };
 
 /**
- * Update a Chart
- */
-exports.update = function(req, res) {
-	var chart = req.chart ;
-
-	chart = _.extend(chart , req.body);
-
-	chart.save(function(err) {
-		if (err) {
-			return res.send(400, {
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(chart);
-		}
-	});
-};
-
-/**
  * Delete an Chart
  */
 exports.delete = function(req, res) {
@@ -95,26 +76,32 @@ exports.delete = function(req, res) {
 /**
  * List of Charts
  */
-exports.list = function(req, res) { Chart.find().sort('-created').populate('user', 'displayName').exec(function(err, charts) {
-		if (err) {
-			return res.send(400, {
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(charts);
-		}
-	});
+exports.list = function(req, res) { 
+  Chart.find()
+    .sort('-created').populate('user', 'displayName').exec(function(err, charts) {
+      if (err) {
+        return res.send(400, {
+          message: getErrorMessage(err)
+        });
+      } else {
+        res.jsonp(charts);
+      }
+    });
 };
 
 /**
  * Chart middleware
  */
-exports.chartByID = function(req, res, next, id) { Chart.findById(id).populate('user', 'displayName').exec(function(err, chart) {
-		if (err) return next(err);
-		if (! chart) return next(new Error('Failed to load Chart ' + id));
-		req.chart = chart ;
-		next();
-	});
+exports.chartByID = function(req, res, next, id) { 
+  Chart.findById(id)
+    .populate('user', 'displayName')
+    .populate('datum')
+    .exec(function(err, chart) {
+      if (err) return next(err);
+      if (! chart) return next(new Error('Failed to load Chart ' + id));
+      req.chart = chart ;
+      next();
+    });
 };
 
 /**

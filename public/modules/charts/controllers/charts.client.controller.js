@@ -13,8 +13,13 @@ angular.module('charts').controller('ChartsController', ['$scope', '$stateParams
 		$scope.create = function() {
 			// Create new Chart object
 			var chart = new Charts ({
-				name: this.name
+				name: this.name,
+        datum: this.dataset._id,
+        configuration: this.chartConfig,
+        chartType: this.chartType
 			});
+      
+      console.info(chart);
 
 			// Redirect after save
 			chart.$save(function(response) {
@@ -41,17 +46,6 @@ angular.module('charts').controller('ChartsController', ['$scope', '$stateParams
 					$location.path('charts');
 				});
 			}
-		};
-
-		// Update existing Chart
-		$scope.update = function() {
-			var chart = $scope.chart ;
-
-			chart.$update(function() {
-				$location.path('charts/' + chart._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
 		};
 
 		// Find a list of Charts

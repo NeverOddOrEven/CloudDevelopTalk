@@ -132,7 +132,7 @@ exports.listmeta = function(req, res) {
         var result = [];
 
         for (var i = 0; i < data.length; ++i) {
-          // HAXX - Have to strip off mongoose non-enumerables
+          // HAXX - Have to strip off mongoose non-enumerables for lodash
           var dataset = JSON.parse(JSON.stringify(data[i]));
           var columnCount = _.size(dataset.data[0]);
           _.extend(dataset, {'columnCount': columnCount});
