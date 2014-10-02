@@ -2,7 +2,10 @@
     <div class="page-header">
         <h1>New Chart</h1>
     </div>
-    <div class="col-md-12">
+    <div class="alert alert-warning text-center" data-ng-hide="datasets.length">
+    	No Data yet, why don't you <a href="/#!/data/create">create one</a>?
+    </div>
+    <div class="col-md-12" data-ng-hide="!datasets.length">
         <form class="form-horizontal" data-ng-submit="create()" novalidate>
             <fieldset>
                 <div class="form-group">
@@ -24,7 +27,6 @@
                        data-chart-config="chartConfig">
                     </configure-chart>
                 </div>
-              {{chartConfig}}
                 <div class="form-group">
                     <input type="submit" class="btn btn-default">
                 </div>

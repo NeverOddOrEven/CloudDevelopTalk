@@ -1,27 +1,9 @@
 <section data-ng-controller="HomeController">
-	<div style="width: 50%; height: 400px;">
-    
-    <!-- Single button -->
-    <div class="btn-group" dropdown>
-      <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
-        Charts <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" role="menu">
-        <li><a href="#">Series</a></li>
-        <li><a href="#">Histogram</a></li>
-        <li><a href="#">Pie</a></li>
-      </ul>
-    </div>
-    
-    <nvd3-line-chart
-        data="exampleData"
-        width="600"
-        height="350"
-        showXAxis="true"
-        showYAxis="true"
-        tooltips="true"
-        interactive="true">
-    </nvd3-line-chart>
-    <five-number-summary summary-data="fiveNumberSummary"></five-number-summary>
+  <div class="page-header">
+      <h1>Welcome</h1>
+  </div>
+  <div class="alert alert-success text-center">
+    <p>This is a demo app for use at Cloud Develop 2014 in Columbus, OH</p>
+    <p>The code can be found at <a href="http://github.com/NeverOddOrEven/CloudDevelopTalk">GitHub</a></p>
   </div>
 </section>
