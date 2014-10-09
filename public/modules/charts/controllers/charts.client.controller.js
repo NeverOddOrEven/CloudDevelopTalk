@@ -9,6 +9,10 @@ angular.module('charts').controller('ChartsController', ['$scope', '$stateParams
       $scope.datasets = DataMetadata.query();
     };
     
+    $scope.$watch('chart', function() {
+      console.info($scope.chart);
+    });
+    
 		// Create new Chart
 		$scope.create = function() {
 			// Create new Chart object
@@ -59,5 +63,9 @@ angular.module('charts').controller('ChartsController', ['$scope', '$stateParams
 				chartId: $stateParams.chartId
 			});
 		};
+    
+    $scope.yTickValues = function() {
+      return [0, 5, 10, 15, 20, 25];
+    };
 	}
 ]);

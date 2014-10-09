@@ -10,7 +10,7 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
     
     $scope.createNewDatum = function() {
       $scope.gridOptions.data = 'myData';
-      var lastCol = 0;
+      var columnDefinitions = [];
       
       // Start out with 1 row with only an ID field
       $scope.myData = [{id: 0}];
@@ -20,8 +20,9 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
          $scope.gridApi = gridApi;
       };
       
-      $scope.addColumn = function() {
-        var colName = 'col_' + (lastCol++);
+      
+      function addColumn(defaultValue) {
+        var colName = 'col_' + (columnDefinitions.length - 1);
         
         $scope.gridOptions.columnDefs.push({
           name: colName,
@@ -30,22 +31,33 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
         
         var rowCount = $scope.myData.length;
         for (var i = 0; i < rowCount; ++i) {
-          $scope.myData[i][colName] = '';
+          $scope.myData[i][colName] = defaultValue;
         }
         
         // haxxor - ui.grid is still in beta
         setTimeout(function() {
           $scope.gridApi.core.refresh();
         }, 100);
+      }
+      
+      $scope.addTextColumn = function() {
+        columnDefinitions.push({isNumeric: false});
+        addColumn('');
+      };
+      
+      $scope.addNumericColumn = function() {
+        columnDefinitions.push({isNumeric: true});
+        addColumn(0);
       };
       
       $scope.addRow = function() {
         var newRowIndex = $scope.myData.length;
         var newRow = {id: newRowIndex};
         
-        for (var i = 0; i < lastCol; ++i) {
+        for (var i = 0; i < columnDefinitions.length; ++i) {
           var colName = 'col_' + i;
-          newRow[colName] = '';
+          var colValue = columnDefinitions[i].isNumeric ? 0 : '';
+          newRow[colName] = colValue;
         }
         
         $scope.myData[newRowIndex] = newRow;

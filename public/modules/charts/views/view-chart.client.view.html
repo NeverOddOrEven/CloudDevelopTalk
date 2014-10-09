@@ -3,10 +3,15 @@
 		<h1 data-ng-bind="chart.name"></h1>
 	</div>
   <div>
-      <chart 
-         data-chart-config="chart.configuration" 
-         data-chart-data="chart.datum"
-         data-chart-type="chart.chartType"/>
+     <nvd3-line-chart
+        data="chart.chartData"
+        showXAxis="true"
+        showYAxis="true"
+        height="200"
+        yAxisTickValues="[0, 5, 10, 15, 20, 25, 30]"
+        tooltips="true"
+        useInteractiveGuideline="true">
+    </nvd3-line-chart>
   </div>
 	<div class="pull-right" data-ng-show="authentication.user._id == chart.user._id">
 		<a class="btn btn-primary" data-ng-click="remove();">
@@ -22,3 +27,5 @@
 		</em>
 	</small>
 </section>
+
+

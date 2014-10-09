@@ -3,7 +3,7 @@
 module.exports = function(app) {
 	var users = require('../../app/controllers/users');
 	var charts = require('../../app/controllers/charts');
-
+  
 	// Charts Routes
 	app.route('/charts')
 		.get(charts.list)

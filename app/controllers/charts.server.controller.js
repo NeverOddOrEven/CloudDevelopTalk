@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
 	Chart = mongoose.model('Chart'),
+  chartService = require('../services/charts.server.service'),
 	_ = require('lodash');
 
 /**
@@ -95,12 +96,23 @@ exports.list = function(req, res) {
 exports.chartByID = function(req, res, next, id) { 
   Chart.findById(id)
     .populate('user', 'displayName')
-    .populate('datum')
+    .lean() // only need the data, not the mongoose decorations
     .exec(function(err, chart) {
       if (err) return next(err);
       if (! chart) return next(new Error('Failed to load Chart ' + id));
-      req.chart = chart ;
-      next();
+      var chartDataPromise = chartService.getChartData(chart.datum, 
+                                                { chartType: chart.chartType,
+                                                  dimensions: chart.configuration              
+                                                });
+    
+      chartDataPromise.then(function(chartData) {
+        _.assign(chart, {chartData: chartData});
+        req.chart = chart;
+        next();
+      }, function(err) {
+        console.error('error');
+        return next(err);
+      });
     });
 };
 
