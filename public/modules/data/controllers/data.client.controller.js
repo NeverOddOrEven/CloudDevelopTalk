@@ -3,8 +3,10 @@
 // Data controller
 angular.module('data').controller('DataController', ['$scope', '$stateParams', '$location', 'Authentication', 'Data',
 	function($scope, $stateParams, $location, Authentication, Data ) {
-		$scope.authentication = Authentication;
-
+		var DEFAULT_TEXT = '';
+    var DEFAULT_NUM = 0;
+    
+    $scope.authentication = Authentication;
     $scope.gridOptions = {};
     $scope.gridOptions.enableColumnResizing = true;
     
@@ -12,7 +14,7 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
       $scope.gridOptions.data = 'myData';
       var columnDefinitions = [];
       
-      // Start out with 1 row with only an ID field
+      // Start out with 1 row with only an ID field (1 column)
       $scope.myData = [{id: 0}];
       $scope.gridOptions.columnDefs = [];
       
@@ -21,17 +23,19 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
       };
       
       
-      function addColumn(defaultValue) {
-        var colName = 'col_' + (columnDefinitions.length - 1);
+      // Refactor to support dates too
+      function addColumn(isNumeric) {
+        var colName = 'col_' + ($scope.gridOptions.columnDefs.length);
         
         $scope.gridOptions.columnDefs.push({
           name: colName,
-          enableCellEditOnFocus: true
+          enableCellEditOnFocus: true,
+          type: isNumeric ? 'number' : 'string'
         });
         
         var rowCount = $scope.myData.length;
         for (var i = 0; i < rowCount; ++i) {
-          $scope.myData[i][colName] = defaultValue;
+          $scope.myData[i][colName] = isNumeric ? DEFAULT_NUM : DEFAULT_TEXT;
         }
         
         // haxxor - ui.grid is still in beta
@@ -41,26 +45,25 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
       }
       
       $scope.addTextColumn = function() {
-        columnDefinitions.push({isNumeric: false});
-        addColumn('');
+        addColumn(false);
       };
       
       $scope.addNumericColumn = function() {
-        columnDefinitions.push({isNumeric: true});
-        addColumn(0);
+        addColumn(true);
       };
       
       $scope.addRow = function() {
         var newRowIndex = $scope.myData.length;
         var newRow = {id: newRowIndex};
         
-        for (var i = 0; i < columnDefinitions.length; ++i) {
+        for (var i = 0; i < $scope.gridOptions.columnDefs.length; ++i) {
           var colName = 'col_' + i;
-          var colValue = columnDefinitions[i].isNumeric ? 0 : '';
+          var colValue = $scope.gridOptions.columnDefs[i].type === 'number' ? DEFAULT_NUM : DEFAULT_TEXT;
           newRow[colName] = colValue;
         }
         
         $scope.myData[newRowIndex] = newRow;
+        console.info($scope.myData);
       };
     };
     

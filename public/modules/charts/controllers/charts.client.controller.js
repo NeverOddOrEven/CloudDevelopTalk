@@ -67,5 +67,17 @@ angular.module('charts').controller('ChartsController', ['$scope', '$stateParams
     $scope.yTickValues = function() {
       return [0, 5, 10, 15, 20, 25];
     };
+    
+    $scope.pieDimX = function() {
+      return function(d) {
+        return d.key;
+      };
+    };
+    
+    $scope.pieDimY = function() {
+      return function(d) {
+        return d.value;
+      };
+    };
 	}
 ]);

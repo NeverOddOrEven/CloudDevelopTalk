@@ -3,7 +3,22 @@
 		<h1 data-ng-bind="chart.name"></h1>
 	</div>
   <div>
-     <nvd3-line-chart
+    <div ng-if="chart.chartType === 'pie'">
+      <nvd3-pie-chart
+        id="NoIdeaWhatThisIs"
+        data="chart.chartData"
+        x="pieDimX()"
+        y="pieDimY()"
+        width="{{300}}"
+        height="{{300}}"
+        showLabels="true"
+        pieLabelsOutside="true"
+        showValues="true"
+        labelType="percent">
+      </nvd3-pie-chart>
+    </div>
+    <div ng-if="chart.chartType === 'line'">
+      <nvd3-line-chart
         data="chart.chartData"
         showXAxis="true"
         showYAxis="true"
@@ -11,7 +26,8 @@
         yAxisTickValues="[0, 5, 10, 15, 20, 25, 30]"
         tooltips="true"
         useInteractiveGuideline="true">
-    </nvd3-line-chart>
+      </nvd3-line-chart>
+    </div>
   </div>
 	<div class="pull-right" data-ng-show="authentication.user._id == chart.user._id">
 		<a class="btn btn-primary" data-ng-click="remove();">
