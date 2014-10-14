@@ -15,6 +15,8 @@ Before you begin we recommend you read about the basic building blocks that asse
 
 
 ## Prerequisites
+Instructions are given below for Linux/Unix/Mac environments. If working with Windows, do not use 'sudo'. Instead, run the commands below from an elevated bash shell. The git-cli interface works very well.
+
 Make sure you have installed all these prerequisites on your development machine.
 * Node.js - [Download & Install Node.js](http://www.nodejs.org/download/) and the npm package manager, if you encounter any problems, you can also use this [Github Gist](https://gist.github.com/isaacs/579814) to install Node.js.
 * MongoDB - [Download & Install MongoDB](http://www.mongodb.org/downloads), and make sure it's running on the default port (27017).
@@ -28,6 +30,9 @@ sudo npm install -g grunt-cli
 ```
 * Heroku Toolbelt - You're going to use the [Heroku Toolbelt](https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up) to deploy your application to Heroku.
 * Azure Tools - If you deploy to Azure, you will use the [Azure CLI](http://azure.microsoft.com/en-us/documentation/articles/xplat-cli/) to deploy your application to Azure.
+```
+sudo npm install -g azure-cli
+```
 
 ## Downloading MEAN.JS
 There are several ways you can get the MEAN.JS boilerplate: 
