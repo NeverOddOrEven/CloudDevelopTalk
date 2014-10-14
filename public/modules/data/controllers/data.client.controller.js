@@ -117,13 +117,5 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
 		$scope.find = function() {
 			$scope.data = Data.query();
 		};
-
-		// Find existing Datum
-		$scope.findOne = function() {
-      $scope.gridOptions.data = 'datum.data';
-			$scope.datum = Data.get({ 
-				datumId: $stateParams.datumId
-			});
-		};
 	}
 ]);

@@ -7,13 +7,14 @@ var mongoose = require('mongoose'),
 	Datum = mongoose.model('Datum'),
 	_ = require('lodash');
 
-function getPieChartData(datumId, configuration) {
+function getGroupedData(datumId, configuration) {
 	var dataPromise = Datum.findById(datumId).exec()
     .then(function(datum) {
       if (!datum)
         throw new Error('Failed to load Datum');
       return datum;
-    }).then(function(datum) {
+    })
+    .then(function(datum) {
       /*
       [ [ 'A', 'A' ],
         [ 'A', 'B' ],
@@ -71,15 +72,45 @@ function getPieChartData(datumId, configuration) {
         var groupedDataValue = groupedData[groupedDataKey] ? groupedData[groupedDataKey] : 0;
         groupedData[groupedDataKey] = groupedDataValue + currentValue;
       }
-
-      var chartData = [];
-      for (var key in groupedData) {
-        chartData.push({key: key, value: groupedData[key]});
-      }
       
-      console.info(chartData);
-      return chartData;
+      console.info(groupedData);
+      
+      return groupedData;
     });
+  
+    return dataPromise;
+}
+
+function getBarChartData(datumId, configuration) {
+  var dataPromise = getGroupedData(datumId, configuration);
+  
+  dataPromise = dataPromise.then(
+      function(groupedData) {
+          var chartData = [];
+          for (var key in groupedData) {
+            chartData.push({key: key, value: groupedData[key]});
+          }
+        
+          // massage it into the proper data format expected by client
+          return [{key: '', values: chartData}];
+        }
+  );
+  
+  return dataPromise;
+}
+
+function getPieChartData(datumId, configuration) {
+	var dataPromise = getGroupedData(datumId, configuration);
+  
+  dataPromise = dataPromise.then(
+        function(groupedData) {
+          var chartData = [];
+          for (var key in groupedData) {
+            chartData.push({key: key, value: groupedData[key]});
+          }
+          return chartData;
+        }
+    );
   
     return dataPromise;
 }
@@ -113,9 +144,6 @@ function getLineChartData(datumId, configuration) {
     return dataPromise;
 }
 
-function getBarChartData(datumId, configuration) {
-	var message = '';
-}
 
 // Returns a promise or {}
 function getChartData(datumId, configuration) {

@@ -10,7 +10,8 @@ angular.module('charts').controller('ChartsController', ['$scope', '$stateParams
     };
     
     $scope.$watch('chart', function() {
-      console.info($scope.chart);
+      // The promise is delivered asynchronously
+      console.info('Chart data received: ' + $scope.chart);
     });
     
 		// Create new Chart
@@ -79,5 +80,7 @@ angular.module('charts').controller('ChartsController', ['$scope', '$stateParams
         return d.value;
       };
     };
+    
+    
 	}
 ]);

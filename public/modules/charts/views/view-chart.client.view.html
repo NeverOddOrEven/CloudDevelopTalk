@@ -3,6 +3,20 @@
 		<h1 data-ng-bind="chart.name"></h1>
 	</div>
   <div>
+    <div data-ng-if="chart.chartType === 'bar'">
+      <nvd3-discrete-bar-chart
+          data="chart.chartData"
+          margin="{left:100,top:100,bottom:50,right:10}"
+          showXAxis="true"
+          showYAxis="true"
+          showValues="true"
+          showLegend="true"
+          height="400"
+          x="pieDimX()"
+          y="pieDimY()">
+      <svg></svg>
+      </nvd3-discrete-bar-chart>
+    </div>
     <div ng-if="chart.chartType === 'pie'">
       <nvd3-pie-chart
         id="NoIdeaWhatThisIs"
