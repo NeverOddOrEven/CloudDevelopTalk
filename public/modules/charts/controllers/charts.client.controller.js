@@ -9,11 +9,6 @@ angular.module('charts').controller('ChartsController', ['$scope', '$stateParams
       $scope.datasets = DataMetadata.query();
     };
     
-    $scope.$watch('chart', function() {
-      // The promise is delivered asynchronously
-      console.info('Chart data received: ' + $scope.chart);
-    });
-    
 		// Create new Chart
 		$scope.create = function() {
 			// Create new Chart object

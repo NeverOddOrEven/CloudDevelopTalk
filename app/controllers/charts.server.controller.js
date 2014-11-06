@@ -61,7 +61,7 @@ exports.read = function(req, res) {
  * Delete an Chart
  */
 exports.delete = function(req, res) {
-	var chart = req.chart ;
+	var chart = new Chart(req.chart);
 
 	chart.remove(function(err) {
 		if (err) {
@@ -120,7 +120,9 @@ exports.chartByID = function(req, res, next, id) {
  * Chart authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.chart.user.id !== req.user.id) {
+  // something weird was going on with the straight _id compare not coming out to true/false
+	var sameUser = (''+req.chart.user._id) === (''+req.user._id);
+  if (!sameUser) {
 		return res.send(403, 'User is not authorized');
 	}
 	next();

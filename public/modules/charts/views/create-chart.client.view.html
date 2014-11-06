@@ -1,6 +1,8 @@
 <section data-ng-controller="ChartsController" data-ng-init="initializeNewChart()">
     <div class="page-header">
         <h1>New Chart</h1>
+        <p>Line charts accept 1 numeric dimension for the Y-Axis. 1+ numeric dimensions for the X-Axis.</p>
+        <p>Pie and Bar charts accept 1+ dimensions to form the groupings (X-Axis) and 1 dimension for the magnitude (Y-Axis)</p>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="datasets.length">
     	No Data yet, why don't you <a href="/#!/data/create">create one</a>?

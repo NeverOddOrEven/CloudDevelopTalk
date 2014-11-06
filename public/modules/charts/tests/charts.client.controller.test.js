@@ -93,13 +93,15 @@
 		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Charts) {
 			// Create a sample Chart object
 			var sampleChartPostData = new Charts({
-				name: 'New Chart'
+				name: 'New Chart',
+        datum: {_id: 'asdfasdf'}
 			});
 
 			// Create a sample Chart response
 			var sampleChartResponse = new Charts({
 				_id: '525cf20451979dea2c000001',
-				name: 'New Chart'
+				name: 'New Chart',
+        datum: {_id: 'asdfasdf'}
 			});
 
 			// Fixture mock form input values

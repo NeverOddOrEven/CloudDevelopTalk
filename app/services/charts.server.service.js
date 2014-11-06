@@ -73,8 +73,6 @@ function getGroupedData(datumId, configuration) {
         groupedData[groupedDataKey] = groupedDataValue + currentValue;
       }
       
-      console.info(groupedData);
-      
       return groupedData;
     });
   
