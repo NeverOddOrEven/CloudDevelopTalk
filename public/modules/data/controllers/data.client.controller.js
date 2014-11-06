@@ -7,21 +7,23 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
     var DEFAULT_NUM = 0;
     
     $scope.authentication = Authentication;
-    $scope.gridOptions = {};
-    $scope.gridOptions.enableColumnResizing = true;
     
+    $scope.gridOptions = {};
+    
+
     $scope.createNewDatum = function() {
+      $scope.gridOptions = {};
+      $scope.gridOptions.enableColumnResizing = true;
       $scope.gridOptions.data = 'myData';
+      $scope.gridOptions.onRegisterApi = function(gridApi){
+        $scope.gridApi = gridApi;
+      };
+      
       var columnDefinitions = [];
       
       // Start out with 1 row with only an ID field (1 column)
-      $scope.myData = [{id: 0}];
-      $scope.gridOptions.columnDefs = [];
-      
-      $scope.gridOptions.onRegisterApi = function(gridApi){
-         $scope.gridApi = gridApi;
-      };
-      
+      $scope.myData = [];
+      $scope.gridOptions.columnDefs = [{name: 'id'}];
       
       // Refactor to support dates too
       function addColumn(isNumeric) {
@@ -37,11 +39,6 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
         for (var i = 0; i < rowCount; ++i) {
           $scope.myData[i][colName] = isNumeric ? DEFAULT_NUM : DEFAULT_TEXT;
         }
-        
-        // haxxor - ui.grid is still in beta
-        setTimeout(function() {
-          $scope.gridApi.core.refresh();
-        }, 100);
       }
       
       $scope.addTextColumn = function() {
@@ -53,17 +50,29 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
       };
       
       $scope.addRow = function() {
-        var newRowIndex = $scope.myData.length;
-        var newRow = {id: newRowIndex};
         
-        for (var i = 0; i < $scope.gridOptions.columnDefs.length; ++i) {
+        // Get all current indices
+        var indices = $scope.myData.map(function(row) {
+          return row.id;
+        });
+        
+        console.log(indices);
+        // Find the next index
+        var nextIndex = $scope.myData.length;
+        while (indices.indexOf(nextIndex) !== -1) {
+          nextIndex++;
+        } 
+        console.log(nextIndex);
+        var newRow = {id: nextIndex};
+        
+        // Start at index 1 to avoid the id column
+        for (var i = 1; i < $scope.gridOptions.columnDefs.length; ++i) {
           var colName = 'col_' + i;
           var colValue = $scope.gridOptions.columnDefs[i].type === 'number' ? DEFAULT_NUM : DEFAULT_TEXT;
           newRow[colName] = colValue;
         }
         
-        $scope.myData[newRowIndex] = newRow;
-        console.info($scope.myData);
+        $scope.myData.push(newRow);
       };
     };
     
@@ -116,6 +125,21 @@ angular.module('data').controller('DataController', ['$scope', '$stateParams', '
 		// Find a list of Data
 		$scope.find = function() {
 			$scope.data = Data.query();
+		};
+    
+    // Find existing Chart
+		$scope.findOne = function() {
+			$scope.datum = Data.get({ 
+				datumId: $stateParams.datumId
+			});
+      
+      // Wire up the grid
+      $scope.gridOptions = {};
+      $scope.gridOptions.enableColumnResizing = true;
+      $scope.gridOptions.data = 'datum.data';
+      $scope.gridOptions.onRegisterApi = function(gridApi){
+        $scope.gridApi = gridApi;
+      };
 		};
 	}
 ]);
